@@ -7,10 +7,31 @@ using System.Threading.Tasks;
 namespace PL
 {
     internal class Materia
-    {
+    {         
+        public static void GetAll()
+        {
+            ML.Result result = BL.Materia.GetAll();
+
+            if(result.Correct)
+            {
+                foreach (ML.Materia materia in result.Objects)
+                {
+                    Console.WriteLine("IdMateria: " + materia.IdMateria);
+                    Console.WriteLine("Nombre: " + materia.Nombre);
+                    Console.WriteLine("Descripcion: " + materia.Descripcion);
+                    Console.WriteLine("Creditos: " + materia.Creditos);
+                    Console.WriteLine("Costo: " + materia.Costo);
+
+                }
+            }
+            else
+            {
+                Console.WriteLine("Ocurrió un error"+result.ErrorMessage);
+            }
+        }
         public static void Add()
         {
-            
+
             ML.Materia materia = new ML.Materia();
 
             Console.WriteLine("Ingrese el nombre: ");
@@ -29,9 +50,10 @@ namespace PL
             materia.Costo = Convert.ToDecimal(Console.ReadLine());
 
 
-            ML.Result result = BL.Materia.Add(materia);
+            //ML.Result result = BL.Materia.Add(materia);
+            ML.Result result = BL.Materia.AddSP(materia);
 
-            if(result.Correct)
+            if (result.Correct)
             {
                 Console.WriteLine("Se insertó correctamente la materia");
             }
@@ -75,7 +97,7 @@ namespace PL
 
             int IdMateria = Convert.ToInt32(Console.ReadLine());
 
-            
+
 
 
         }
