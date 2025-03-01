@@ -15,6 +15,7 @@ namespace ML
         public string Descripcion { get; set; }
         public decimal Costo { get; set; }
         public string Prueba { get; set; }
+        public ML.Semestre Semestre { get; set; }
     } 
 
 }

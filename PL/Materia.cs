@@ -49,7 +49,11 @@ namespace PL
 
             materia.Costo = Convert.ToDecimal(Console.ReadLine());
 
+            Console.WriteLine("Ingrese el Id del Semestre");
 
+            materia.Semestre = new ML.Semestre();
+            materia.Semestre.IdSemestre = Convert.ToByte(Console.ReadLine());
+            
             //ML.Result result = BL.Materia.Add(materia);
             ML.Result result = BL.Materia.AddSP(materia);
 

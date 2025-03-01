@@ -10,13 +10,16 @@ namespace BL
 {
     public class Materia
     {
+        // Métodos con el query dentro de 
         public static ML.Result GetAll()  // Stored procedure
         {
             ML.Result result = new ML.Result();
 
             try
             {
-                using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=JTorresProgramacionNCapasFebrero;User ID=sa;Password=pass@word1;Encrypt=False;"))
+                //1 Importar librerías
+                //2 Gestiona Recursos  //Garbage Collector
+                using (SqlConnection conn = new SqlConnection(DL.Conexion.Get()))
                 {
                     SqlCommand cmd = new SqlCommand("MateriaGetAll", conn);
 
@@ -45,7 +48,7 @@ namespace BL
                         result.Correct = false;
                         result.ErrorMessage = "No se encontraron registros";
                     }                
-
+                   // conn.Close();
                 }
             }
             catch (Exception ex)
@@ -62,7 +65,7 @@ namespace BL
 
             try
             {
-                using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=JTorresProgramacionNCapasFebrero;User ID=sa;Password=pass@word1;Encrypt=False;"))
+                using (SqlConnection conn = new SqlConnection(DL.Conexion.Get()))
                 {
                     SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[Materia]([Nombre],[Creditos],[Descripcion],[Costo])VALUES (@Nombre, @Creditos, @Descripcion,@Costo)", conn);
                     cmd.Parameters.AddWithValue("@Nombre", materia.Nombre);
@@ -70,6 +73,7 @@ namespace BL
                     cmd.Parameters.AddWithValue("@Descripcion", materia.Descripcion);
                     cmd.Parameters.AddWithValue("@Costo", materia.Costo);
                     conn.Open();
+
                     int rowsAffected = cmd.ExecuteNonQuery();
 
                     if (rowsAffected > 0)
@@ -98,7 +102,7 @@ namespace BL
 
             try
             {
-                using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=JTorresProgramacionNCapasFebrero;User ID=sa;Password=pass@word1;Encrypt=False;"))
+                using (SqlConnection conn = new SqlConnection(DL.Conexion.Get()))
                 {
                     SqlCommand cmd = new SqlCommand("MateriaAdd", conn);
 
@@ -108,6 +112,8 @@ namespace BL
                     cmd.Parameters.AddWithValue("@Creditos", materia.Creditos);
                     cmd.Parameters.AddWithValue("@Descripcion", materia.Descripcion);
                     cmd.Parameters.AddWithValue("@Costo", materia.Costo);
+                    cmd.Parameters.AddWithValue("@IdSemestre", materia.Semestre.IdSemestre);
+
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
 

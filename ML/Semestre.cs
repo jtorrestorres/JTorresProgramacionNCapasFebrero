@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DL
+namespace ML
 {
-    internal class Conexion2
+    public class Semestre
     {
+        public byte IdSemestre { get; set; }
+        public string Nombre { get; set; }
     }
 }
