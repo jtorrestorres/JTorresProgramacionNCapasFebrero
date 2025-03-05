@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ML;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -28,9 +29,9 @@ namespace BL
                     DataTable dataTable = new DataTable();
 
                     da.Fill(dataTable); //
-                    if(dataTable.Rows.Count > 0 )
+                    if (dataTable.Rows.Count > 0)
                     {
-                        result.Objects= new List<object>();
+                        result.Objects = new List<object>();
 
                         foreach (DataRow row in dataTable.Rows)
                         {
@@ -41,14 +42,68 @@ namespace BL
                             materia.Descripcion = ((row[3].ToString()));
                             materia.Costo = (Convert.ToDecimal(row[4].ToString()));
                             result.Objects.Add(materia);
-                        }                       
+                        }
+                        result.Correct = true;
                     }
                     else
                     {
                         result.Correct = false;
                         result.ErrorMessage = "No se encontraron registros";
-                    }                
-                   // conn.Close();
+                    }
+                    // conn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return result;
+        }
+
+        public static ML.Result GetById(int IdMateria)  // Stored procedure
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                //1 Importar librerías
+                //2 Gestiona Recursos  //Garbage Collector
+                using (SqlConnection conn = new SqlConnection(DL.Conexion.Get()))
+                {
+                    SqlCommand cmd = new SqlCommand("MateriaGetById", conn);
+                    cmd.Parameters.AddWithValue("@IdMateria", IdMateria);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+                    DataTable dataTable = new DataTable();
+
+                    da.Fill(dataTable); //
+                    if (dataTable.Rows.Count > 0)
+                    {
+                        result.Objects = new List<object>();
+
+                        DataRow row = dataTable.Rows[0];
+
+                        ML.Materia materia = new ML.Materia();
+                        materia.IdMateria = Convert.ToInt32(row[0].ToString());
+                        materia.Nombre = (row[1].ToString());
+                        materia.Creditos = Convert.ToByte((row[2].ToString()));
+                        materia.Descripcion = ((row[3].ToString()));
+                        materia.Costo = (Convert.ToDecimal(row[4].ToString()));
+
+                        result.Object = materia; //boxing
+
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No se encontraron registros";
+                    }
+                    // conn.Close();
                 }
             }
             catch (Exception ex)

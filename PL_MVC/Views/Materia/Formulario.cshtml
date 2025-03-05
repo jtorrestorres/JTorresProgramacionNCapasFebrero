@@ -1,0 +1,67 @@
+﻿@model ML.Materia
+@{
+    ViewBag.Title = "Formulario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Materia</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h5>Ingrese los datos de la materia:</h5>
+            <hr />
+        </div>
+    </div>
+    @using (Html.BeginForm("Formulario", "Materia", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="col-4">
+                @Html.LabelFor(model => model.IdMateria, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.IdMateria, new { @class = "form-control" })
+            </div>
+            <div class="col-4">
+                @Html.LabelFor(model => model.Nombre, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+            </div>
+            <div class="col-4">
+                @Html.LabelFor(model => model.Creditos, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control" })
+            </div>
+
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-4">
+                @Html.LabelFor(model => model.Descripcion, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+            </div>
+            <div class="col-4">
+                @Html.LabelFor(model => model.Costo, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Costo, new { @class = "form-control" })
+            </div>
+            <div class="col-4">
+                @Html.LabelFor(model => model.Semestre.IdSemestre, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Semestre.IdSemestre, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-1">
+                <input type="submit" value="Guardar" class="btn btn-success" />
+            </div>
+            <div class="col-1">
+                @Html.ActionLink("Regresar", "GetAll", "Materia", new { @class = "btn btn-danger" })
+            </div>
+
+        </div>
+    }
+
+</div>
+

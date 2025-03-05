@@ -1,0 +1,61 @@
+﻿@model ML.Materia
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            @Html.ActionLink("+", "Formulario", "Materia", new { IdMateria = 0 }, new {@class="btn btn-success"})
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            @if (Model.Materias != null)
+            {
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th> Editar </th>
+                            <th> IdMateria </th>
+                            <th> Nombre </th>
+                            <th> Creditos </th>
+                            <th> Descripcion </th>
+                            <th> Costo </th>
+                            <th> Eliminar </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (ML.Materia materia in Model.Materias)
+                        {
+                            <tr>
+                                <td>
+
+                                    <a href="@Url.Action("Formulario", "Materia", new {IdMateria = materia.IdMateria})"> Prueba</a>
+
+                                </td>
+                                <td>@materia.IdMateria</td>
+                                <td>@materia.Nombre</td>
+                                <td>@materia.Creditos</td>
+                                <td>@materia.Descripcion</td>
+                                <td>@materia.Costo</td>
+                                <td></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-danger" role="alert">
+                  A simple danger alert—check it out!
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>
