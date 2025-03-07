@@ -31,7 +31,7 @@ namespace PL
             object Q = materia;
 
 
-            Console.WriteLine(((ML.Materia)Q).Nombre  //COMPLEJO         );
+            Console.WriteLine(((ML.Materia)Q).Nombre.ToString());  //COMPLEJO         );
 
 
 

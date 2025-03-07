@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -256,6 +257,47 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        public static ML.Result DeleteSP (int idMateria)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (SqlConnection context = new SqlConnection(DL.Conexion.Get()))
+                {
+                    SqlCommand command = new SqlCommand();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "MateriaDelete";
+                    command.Connection = context;
+
+                    command.Parameters.AddWithValue("@IdMateria", idMateria);
+
+                    context.Open();
+
+                    int filasAfectadas = command.ExecuteNonQuery();
+
+                    if(filasAfectadas > 0)
+                    {
+                        result.Correct = true;
+                    } else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No se encontro el usuario que quieres eliminar";
+                    }
+                }
+
+
+            } catch(Exception ex)
+            {
+
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
 
             return result;

@@ -4,10 +4,12 @@
 }
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            @Html.ActionLink("+", "Formulario", "Materia", new { IdMateria = 0 }, new {@class="btn btn-success"})
+            @Html.ActionLink("+", "Formulario", "Materia", new { IdMateria = 0 }, new { @class = "btn btn-success" })
         </div>
     </div>
 
@@ -41,7 +43,11 @@
                                 <td>@materia.Creditos</td>
                                 <td>@materia.Descripcion</td>
                                 <td>@materia.Costo</td>
-                                <td></td>
+                                <td>
+                                    <a href="@Url.Action("Delete", "Materia", new {IdMateria = materia.IdMateria})">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </td>
                             </tr>
                         }
 
@@ -51,7 +57,7 @@
             else
             {
                 <div class="alert alert-danger" role="alert">
-                  A simple danger alert—check it out!
+                    A simple danger alert—check it out!
                 </div>
             }
 

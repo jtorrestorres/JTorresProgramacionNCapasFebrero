@@ -64,6 +64,13 @@ namespace PL_MVC.Controllers
 
             return View();
         }
+
+        public ActionResult Delete(int IdMateria)
+        {
+            BL.Materia.DeleteSP(IdMateria);
+            //return View("GetAll");
+            return RedirectToAction("GetAll");
+        }
     }
 
 
