@@ -42,6 +42,13 @@ namespace BL
                             materia.Creditos = Convert.ToByte((row[2].ToString()));
                             materia.Descripcion = ((row[3].ToString()));
                             materia.Costo = (Convert.ToDecimal(row[4].ToString()));
+
+                            materia.Semestre = new ML.Semestre();
+                            materia.Semestre.IdSemestre= (Convert.ToByte(row[5].ToString()));
+
+                            materia.FechaRegistro = ((row[6].ToString()));
+
+
                             result.Objects.Add(materia);
                         }
                         result.Correct = true;
