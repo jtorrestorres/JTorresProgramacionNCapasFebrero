@@ -13,6 +13,8 @@ namespace PL_MVC.Controllers
         {
             ML.Materia materia = new ML.Materia();
 
+           
+
             ML.Result result = BL.Materia.GetAll();
 
             if (result.Correct)
@@ -29,6 +31,12 @@ namespace PL_MVC.Controllers
         public ActionResult Formulario(int? IdMateria)
         {
             ML.Materia materia = new ML.Materia();
+
+            materia.Semestre = new ML.Semestre();
+
+            ML.Result resultSemestre = BL.Semestre.GetAll();
+
+            materia.Semestre.Semestres = resultSemestre.Objects; //llenando el drop down list
 
             if (IdMateria == 0) //Add
             {
