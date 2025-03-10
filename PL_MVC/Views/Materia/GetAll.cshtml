@@ -26,6 +26,8 @@
                             <th> Creditos </th>
                             <th> Descripcion </th>
                             <th> Costo </th>
+                            <th> Semestre </th>
+
                             <th> Eliminar </th>
                         </tr>
                     </thead>
@@ -43,6 +45,8 @@
                                 <td>@materia.Creditos</td>
                                 <td>@materia.Descripcion</td>
                                 <td>@materia.Costo</td>
+                                <td>@materia.Semestre.Nombre</td>
+
                                 <td>
                                     <a href="@Url.Action("Delete", "Materia", new {IdMateria = materia.IdMateria})">
                                         <i class="bi bi-trash-fill"></i>

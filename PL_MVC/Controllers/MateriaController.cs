@@ -50,6 +50,8 @@ namespace PL_MVC.Controllers
                 if (result.Correct == true)
                 {
                     materia = (ML.Materia)result.Object; //Unboxing
+                    materia.Semestre.Semestres = resultSemestre.Objects; //llenando el drop down list
+
                 }
                 //GetById
             }
@@ -60,13 +62,20 @@ namespace PL_MVC.Controllers
         [HttpPost]
         public ActionResult Formulario(ML.Materia materia)
         {
+            ML.Result result = new ML.Result();
+
             if (materia.IdMateria == 0)
             {
-                BL.Materia.AddSP(materia);
+                result = BL.Materia.AddSP(materia);
             }
             else
             {
-                BL.Materia.Update(materia);
+                result = BL.Materia.Update(materia);
+            }
+
+            if(result.Correct) //result.Correct 
+            {
+                return RedirectToAction("GetAll");
             }
 
 
