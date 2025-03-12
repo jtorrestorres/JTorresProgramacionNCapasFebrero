@@ -50,9 +50,17 @@
                 @Html.LabelFor(model => model.Semestre.IdSemestre, new { @class = "form-label" })
                 @*@Html.TextBoxFor(model => model.Semestre.IdSemestre, new { @class = "form-control" })*@
 
-                @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opcion")
+                @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opcion", new { @class = "form-control" })
 
             </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <img id="imgMateria" height="200px" src="~/Img/Default.png" width="200px" />
+                <input type="file" name="imgMateriaInput" onchange="PrevisualizarImagen(event)" />
+            </div>
+
         </div>
 
         <div class="row mt-3">
@@ -68,3 +76,18 @@
 
 </div>
 
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+
+<script type="text/javascript">
+
+    function PrevisualizarImagen(event) {
+        var output = document.getElementById('imgMateria');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src) // free memory
+        }
+    }
+
+
+</script>

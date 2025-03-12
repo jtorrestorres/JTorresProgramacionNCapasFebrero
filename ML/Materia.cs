@@ -18,6 +18,7 @@ namespace ML
         public ML.Semestre Semestre { get; set; }
         public string FechaRegistro { get; set; }
 
+        public byte[] Imagen { get; set; }
 
 
         public List<object> Materias { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,9 +12,7 @@ namespace PL_MVC.Controllers
         // GET: Usuario
         public ActionResult GetAll()
         {
-            ML.Materia materia = new ML.Materia();
-
-           
+            ML.Materia materia = new ML.Materia();          
 
             ML.Result result = BL.Materia.GetAll();
 
@@ -60,12 +59,19 @@ namespace PL_MVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Formulario(ML.Materia materia)
+        public ActionResult Formulario(ML.Materia materia, HttpPostedFileBase imgMateriaInput)
         {
             ML.Result result = new ML.Result();
 
             if (materia.IdMateria == 0)
             {
+                //Convierto http post file base (Vista) to Byte Array
+
+                MemoryStream target = new MemoryStream();
+                imgMateriaInput.InputStream.CopyTo(target);
+                byte[] data = target.ToArray();
+
+                materia.Imagen = data;
                 result = BL.Materia.AddSP(materia);
             }
             else
