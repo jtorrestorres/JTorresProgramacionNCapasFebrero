@@ -45,9 +45,9 @@ namespace BL
 
                             materia.Semestre = new ML.Semestre();
                             materia.Semestre.IdSemestre= (Convert.ToByte(row[5].ToString()));
-                            materia.Semestre.Nombre = (row[6].ToString());
+                            materia.Semestre.Nombre = (row[6].ToString());                           
 
-                            // materia.FechaRegistro = ((row[6].ToString()));
+                            materia.Imagen = row[7].ToString() != "" ? (byte[])row[7] : null;//operador ternario
 
 
                             result.Objects.Add(materia);
@@ -71,7 +71,7 @@ namespace BL
         }
 
         public static ML.Result GetById(int IdMateria)  // Stored procedure
-        {
+            {
             ML.Result result = new ML.Result();
 
             try
@@ -104,6 +104,7 @@ namespace BL
                         materia.Costo = (Convert.ToDecimal(row[4].ToString()));
                         materia.Semestre = new ML.Semestre();
                         materia.Semestre.IdSemestre = Convert.ToByte((row[5].ToString()));
+                        materia.Imagen = row[6].ToString() != "" ? (byte[])row[6] : null;//operador ternario
 
                         result.Object = materia; //boxing
 
@@ -179,6 +180,7 @@ namespace BL
                     cmd.Parameters.AddWithValue("@Descripcion", materia.Descripcion);
                     cmd.Parameters.AddWithValue("@Costo", materia.Costo);
                     cmd.Parameters.AddWithValue("@IdSemestre", materia.Semestre.IdSemestre);
+                    cmd.Parameters.AddWithValue("@Imagen", materia.Imagen);
 
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
@@ -208,13 +210,18 @@ namespace BL
 
             try
             {
-                using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=JTorresProgramacionNCapasFebrero;User ID=sa;Password=pass@word1;Encrypt=False;"))
+                using (SqlConnection conn = new SqlConnection(DL.Conexion.Get()))
                 {
-                    SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[Materia]([Nombre],[Creditos],[Descripcion],[Costo])VALUES (@Nombre, @Creditos, @Descripcion,@Costo)", conn);
+                    SqlCommand cmd = new SqlCommand("MateriaUpdate", conn);
+                    
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Nombre", materia.Nombre);
                     cmd.Parameters.AddWithValue("@Creditos", materia.Creditos);
                     cmd.Parameters.AddWithValue("@Descripcion", materia.Descripcion);
                     cmd.Parameters.AddWithValue("@Costo", materia.Costo);
+                    cmd.Parameters.AddWithValue("@IdSemestre", materia.Semestre.IdSemestre);
+                    cmd.Parameters.AddWithValue("@Imagen", materia.Imagen);
+                    
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
 
@@ -243,13 +250,12 @@ namespace BL
 
             try
             {
-                using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=JTorresProgramacionNCapasFebrero;User ID=sa;Password=pass@word1;Encrypt=False;"))
+                using (SqlConnection conn = new SqlConnection(DL.Conexion.Get()))
                 {
-                    SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[Materia]([Nombre],[Creditos],[Descripcion],[Costo])VALUES (@Nombre, @Creditos, @Descripcion,@Costo)", conn);
-                    cmd.Parameters.AddWithValue("@Nombre", materia.Nombre);
-                    cmd.Parameters.AddWithValue("@Creditos", materia.Creditos);
-                    cmd.Parameters.AddWithValue("@Descripcion", materia.Descripcion);
-                    cmd.Parameters.AddWithValue("@Costo", materia.Costo);
+                    SqlCommand cmd = new SqlCommand("MateriaDelete", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@IdMateria", materia.IdMateria);
+                    
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
 

@@ -27,7 +27,7 @@
                             <th> Descripcion </th>
                             <th> Costo </th>
                             <th> Semestre </th>
-
+                            <th> Imagen </th>
                             <th> Eliminar </th>
                         </tr>
                     </thead>
@@ -46,7 +46,17 @@
                                 <td>@materia.Descripcion</td>
                                 <td>@materia.Costo</td>
                                 <td>@materia.Semestre.Nombre</td>
+                                <td>
+                                    @if (materia.Imagen == null)
+                                    {
+                                        <img id="imgMateria" height="200px" src="~/Img/Default.png" width="200px" />
+                                    }
+                                    else
+                                    {
+                                        <img id="imgMateria" height="200px" src="data:image/*;base64,@Convert.ToBase64String(materia.Imagen)" width="200px" />
 
+                                    }
+                                </td>
                                 <td>
                                     <a href="@Url.Action("Delete", "Materia", new {IdMateria = materia.IdMateria})">
                                         <i class="bi bi-trash-fill"></i>
