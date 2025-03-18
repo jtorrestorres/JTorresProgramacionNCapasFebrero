@@ -63,15 +63,21 @@ namespace PL_MVC.Controllers
         {
             ML.Result result = new ML.Result();
 
-            if (materia.IdMateria == 0)
+            if(imgMateriaInput.ContentLength > 0)
             {
                 //Convierto http post file base (Vista) to Byte Array
 
+                //me dio un archivo
                 MemoryStream target = new MemoryStream();
                 imgMateriaInput.InputStream.CopyTo(target);
                 byte[] data = target.ToArray();
 
                 materia.Imagen = data;
+
+            }
+
+            if (materia.IdMateria == 0)
+            {
                 result = BL.Materia.AddSP(materia);
             }
             else

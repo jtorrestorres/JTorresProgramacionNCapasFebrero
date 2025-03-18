@@ -56,7 +56,7 @@
         </div>
 
 
-               @Html.HiddenFor(model => model.Imagen)
+        @Html.HiddenFor(model => model.Imagen)
 
         <div class="row">
             <div class="col-12">
@@ -90,9 +90,25 @@
 </div>
 
 
+
+
+@*@Scripts.Render("~/bundles/jquery")*@
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 
 <script type="text/javascript">
+
+    console.log($('div'))
+
+    function ValidarImagen(event) {
+        //1. extesion archivo usuario jpg, png, jpeg
+        //2. extensiones permitidas jpg, png, jpeg
+        //3. comparar la extension del archivo del usuario con las extensiones permitidas
+        //SI son iguales, que si me dio una imagen, Previsualizar
+        // NO son iguales, mostrar un mensaje diciendo que el archivo no es permitido
+
+        //OJO con el input
+
+    }
 
     function PrevisualizarImagen(event) {
         var output = document.getElementById('imgMateria');
