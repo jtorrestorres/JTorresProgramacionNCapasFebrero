@@ -1,0 +1,9 @@
+﻿
+@{
+    ViewBag.Title = "DropDownList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DropDownList</h2>
+
+@Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opcion", new { @class = "form-control" })
