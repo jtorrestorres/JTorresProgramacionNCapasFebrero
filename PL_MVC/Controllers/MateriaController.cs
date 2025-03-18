@@ -100,6 +100,15 @@ namespace PL_MVC.Controllers
             //return View("GetAll");
             return RedirectToAction("GetAll");
         }
+
+
+        public ActionResult DropDownList(int IdMateria)
+        {
+            BL.Materia.DeleteSP(IdMateria);
+            //return View("GetAll");
+            return RedirectToAction("GetAll");
+        }
+
     }
 
 
