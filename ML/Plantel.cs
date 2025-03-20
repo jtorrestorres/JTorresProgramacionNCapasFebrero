@@ -10,5 +10,6 @@ namespace ML
     {
         public byte IdPlantel { get; set; }
         public string Nombre { get; set; }
+        public List<object> Planteles { get; set; }
     }
 }

@@ -22,6 +22,8 @@ namespace ML
 
 
         public List<object> Materias { get; set; }
+
+        public ML.Grupo Grupo { get; set; }
     } 
 
 }

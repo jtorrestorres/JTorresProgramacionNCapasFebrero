@@ -12,7 +12,7 @@ namespace PL_MVC.Controllers
         // GET: Usuario
         public ActionResult GetAll()
         {
-            ML.Materia materia = new ML.Materia();          
+            ML.Materia materia = new ML.Materia();
 
             ML.Result result = BL.Materia.GetAll();
 
@@ -79,7 +79,7 @@ namespace PL_MVC.Controllers
                 result = BL.Materia.Update(materia);
             }
 
-            if(result.Correct) //result.Correct 
+            if (result.Correct) //result.Correct 
             {
                 return RedirectToAction("GetAll");
             }
@@ -96,12 +96,35 @@ namespace PL_MVC.Controllers
         }
 
 
-        public ActionResult DropDownList(int IdMateria)
+        public ActionResult DropDownList()
         {
-            BL.Materia.DeleteSP(IdMateria);
-            //return View("GetAll");
-            return RedirectToAction("GetAll");
+
+            ML.Materia materia = new ML.Materia();
+
+            ML.Result resultPlanteles = BL.Plantel.GetAll();
+
+            if (resultPlanteles.Correct == true)
+            {
+                materia.Grupo = new ML.Grupo(); //usuario.Direccion
+                materia.Grupo.Plantel = new ML.Plantel(); //Usuario.Direccion.Colonia
+                                                          //usuario.Direccion.Colonia.Municipio
+                                                          //usuario.Direccion.Colonia.Municipio.Estado
+                materia.Grupo.Plantel.Planteles = resultPlanteles.Objects;
+            }
+
+
+            return View(materia);
+
         }
+
+
+        public JsonResult GrupoGetByIdPlantel(int IdPlantel)
+        {
+            ML.Result result = BL.Grupo.GetByIdPlantel(IdPlantel);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
     }
 
