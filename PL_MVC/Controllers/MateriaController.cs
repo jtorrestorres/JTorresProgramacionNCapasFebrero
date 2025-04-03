@@ -72,26 +72,39 @@ namespace PL_MVC.Controllers
                 imgMateriaInput.InputStream.CopyTo(target);
                 byte[] data = target.ToArray();
 
-                materia.Imagen = data;
+                materia.MateriaImagen = new ML.MateriaImagen();
+                materia.MateriaImagen.Imagen= data;
 
             }
 
-            if (materia.IdMateria == 0)
+            
+            if(Session["ListaImagenes"]==null)
             {
-                result = BL.Materia.AddSP(materia);
-            }
-            else
-            {
-                result = BL.Materia.Update(materia);
+                materia.MateriaImagen.MateriasImagenes = new List<object>();
+                materia.MateriaImagen.MateriasImagenes.Add(materia.MateriaImagen);//Id, Descripcion, Imagen
+                Session["ListaImagenes"] = materia.MateriaImagen.MateriasImagenes;
             }
 
-            if (result.Correct) //result.Correct 
-            {
-                return RedirectToAction("GetAll");
-            }
+            
 
 
-            return View();
+
+            //if (materia.IdMateria == 0)
+            //{
+            //    result = BL.Materia.AddSP(materia);
+            //}
+            //else
+            //{
+            //    result = BL.Materia.Update(materia);
+            //}
+
+            //if (result.Correct) //result.Correct 
+            //{
+            //    return RedirectToAction("GetAll");
+            //}
+
+
+            return View(materia);
         }
 
         public ActionResult Delete(int IdMateria)

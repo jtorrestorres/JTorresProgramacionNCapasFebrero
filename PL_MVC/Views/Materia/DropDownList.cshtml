@@ -7,52 +7,58 @@
 <div class="container">
     <div class="row">
         <div class="col-3">
-            @Html.DropDownListFor(model => model.Grupo.Plantel.IdPlantel, new SelectList(Model.Grupo.Plantel.Planteles, 
-           "IdPlantel", "Nombre"), "Selecciona una opcion", new {@id="ddlPlantel", @class = "form-control", @onchange="FillGrupos()"})
+            @Html.DropDownListFor(model => model.Grupo.Plantel.IdPlantel, new SelectList(Model.Grupo.Plantel.Planteles,
+           "IdPlantel", "Nombre"), "Selecciona una opcion", new { @id = "ddlPlantel", @class = "form-control", @onchange = "FillGrupos()" })
         </div>
 
         <div class="col-3">
-            @Html.DropDownListFor(model => model.Grupo.IdGrupo, new SelectList(string.Empty, "IdGrupo", "Nombre"), 
+            @Html.DropDownListFor(model => model.Grupo.IdGrupo, new SelectList(string.Empty, "IdGrupo", "Nombre"),
            "Selecciona una opción", htmlAttributes: new { id = "ddlGrupo", @class = "form-control" })
         </div>
     </div>
 
+
+   
 </div>
 
 <script src="~/Scripts/jquery-3.4.1.js">
 </script>
 
 <script type="text/javascript">
+
+
+    
+
       function FillGrupos() {//scope
 
-      let ddlIdPlantel = $("#ddlPlantel").val();
+          let ddlIdPlantel = $("#ddlPlantel").val();
 
-      $.ajax({
-       type: 'GET',
-       url: '@Url.Action("GrupoGetByIdPlantel")',
-       dataType: 'json', //Recibir
+          $.ajax({
+           type: 'GET',
+           url: '@Url.Action("GrupoGetByIdPlantel")',
+           dataType: 'json', //Recibir
 
-       contentType:'application/json',//enviar
-          data: { IdPlantel: ddlIdPlantel },
-       success: function (result)
-       {
-           if (result.Correct) {
+           contentType:'application/json',//enviar
+              data: { IdPlantel: ddlIdPlantel },
+           success: function (result)
+           {
+               if (result.Correct) {
 
-               $("#ddlGrupo").empty();
+                   $("#ddlGrupo").empty();
 
-               $("#ddlGrupo").append('<option value="0">' + 'Seleccione un grupo' + '</option>');
+                   $("#ddlGrupo").append('<option value="0">' + 'Seleccione un grupo' + '</option>');
 
-               $.each(result.Objects, function (i, grupos) {
-                   $("#ddlGrupo").append('<option value="'
-                       + grupos.IdGrupo + '">'
-                       + grupos.Nombre + '</option>');
-               });
+                   $.each(result.Objects, function (i, grupos) {
+                       $("#ddlGrupo").append('<option value="'
+                           + grupos.IdGrupo + '">'
+                           + grupos.Nombre + '</option>');
+                   });
+               }
+           },
+           error: function (ex)
+           {
+               alert('Failed.' + ex);
            }
-       },
-       error: function (ex)
-       {
-           alert('Failed.' + ex);
-       }
       });
   }
 </script>
