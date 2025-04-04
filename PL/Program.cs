@@ -18,7 +18,9 @@ namespace PL
             int Edad = 28;
 
             Console.WriteLine((decimal)A); //Unboxing
-            Console.WriteLine((bool)X); //PRIMITIVO
+            Console.WriteLine((string)X); //PRIMITIVO
+
+            //caché
 
 
             ML.Materia materia = new ML.Materia();

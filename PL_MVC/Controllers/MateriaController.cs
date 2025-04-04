@@ -21,6 +21,13 @@ namespace PL_MVC.Controllers
                 materia.Materias = result.Objects;
             }
 
+            if (Session["ListaImagenes"] != null)
+            {
+                materia.MateriaImagen = new ML.MateriaImagen();
+                materia.MateriaImagen.MateriasImagenes = new List<object>();
+                materia.MateriaImagen.MateriasImagenes = Session["ListaImagenes"] as List<object>; //1//UNBOXING
+
+            }
             return View(materia);
         }
 
@@ -54,7 +61,13 @@ namespace PL_MVC.Controllers
                 }
                 //GetById
             }
+            if (Session["ListaImagenes"] != null)
+            {
+                materia.MateriaImagen = new ML.MateriaImagen();
+                materia.MateriaImagen.MateriasImagenes = new List<object>();
+                materia.MateriaImagen.MateriasImagenes = Session["ListaImagenes"] as List<object>; //1//UNBOXING
 
+            }
             return View(materia);
         }
 
@@ -72,7 +85,6 @@ namespace PL_MVC.Controllers
                 imgMateriaInput.InputStream.CopyTo(target);
                 byte[] data = target.ToArray();
 
-                materia.MateriaImagen = new ML.MateriaImagen();
                 materia.MateriaImagen.Imagen= data;
 
             }
@@ -80,12 +92,23 @@ namespace PL_MVC.Controllers
             
             if(Session["ListaImagenes"]==null)
             {
+
                 materia.MateriaImagen.MateriasImagenes = new List<object>();
                 materia.MateriaImagen.MateriasImagenes.Add(materia.MateriaImagen);//Id, Descripcion, Imagen
-                Session["ListaImagenes"] = materia.MateriaImagen.MateriasImagenes;
+                Session["ListaImagenes"] = materia.MateriaImagen.MateriasImagenes; //Boxing
+            
+            }
+            else
+            {
+                materia.MateriaImagen.MateriasImagenes = Session["ListaImagenes"] as List<object>; //1//UNBOXING
+
+                materia.MateriaImagen.MateriasImagenes.Add(materia.MateriaImagen); //2 //Lista
+
+                Session["ListaImagenes"] = materia.MateriaImagen.MateriasImagenes; //Boxing
+
             }
 
-            
+
 
 
 
@@ -111,6 +134,39 @@ namespace PL_MVC.Controllers
         {
             BL.Materia.DeleteSP(IdMateria);
             //return View("GetAll");
+            return RedirectToAction("GetAll");
+        }
+
+        public ActionResult DeleteImagen(int IdMateriaImagen, string Descripcion)
+        {
+            ML.Materia materia = new ML.Materia();
+            materia.MateriaImagen = new ML.MateriaImagen();
+            materia.MateriaImagen.MateriasImagenes = new List<object>();
+
+            if(IdMateriaImagen == 0) // El elemento existe solo en la sesión 
+                //Eliminarlo de la sesion
+            {
+
+                
+                materia.MateriaImagen.MateriasImagenes = Session["ListaImagenes"] as List<object>; //1//UNBOXING
+
+                foreach(ML.MateriaImagen materiaImagen in materia.MateriaImagen.MateriasImagenes)
+                {
+                    if(materiaImagen.IdMateriaImagen == IdMateriaImagen && materiaImagen.Descripcion == Descripcion)
+                    {
+                        materia.MateriaImagen.MateriasImagenes.Remove(materiaImagen);
+                        break;
+                    }
+                }
+
+
+            }
+            else //El elemento si existe en la base de datos // Eliminar BD
+            {
+                //BL.MateriaImagen.Delete(IdMateriaImagen)
+            }
+
+            
             return RedirectToAction("GetAll");
         }
 
