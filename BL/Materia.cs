@@ -318,5 +318,29 @@ namespace BL
 
             return result;
         }
+
+        public static ML.Result GetAllEFLinq()  
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using(DL.JTorresProgramacionNCapasFebreroEntities context = new DL.JTorresProgramacionNCapasFebreroEntities())
+                {
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+
     }
 }

@@ -46,11 +46,12 @@ namespace PL_MVC.Controllers
 
             if (IdMateria == 0) //Add
             {
-
+             //   materia.Action = "Add";
             }
             else
                 if (IdMateria > 0) //Update
             {
+              //  materia.Action = "Update";
                 ML.Result result = BL.Materia.GetById(IdMateria.Value);
 
                 if (result.Correct == true)
@@ -72,59 +73,84 @@ namespace PL_MVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Formulario(ML.Materia materia, HttpPostedFileBase imgMateriaInput)
+        public ActionResult Formulario(ML.Materia materia, HttpPostedFileBase imgMateriaInput, string Action)
         {
             ML.Result result = new ML.Result();
 
-            if(imgMateriaInput.ContentLength > 0)
+            if(Action == "Cargar")
             {
-                //Convierto http post file base (Vista) to Byte Array
+                if (imgMateriaInput.ContentLength > 0)
+                {
+                    MemoryStream target = new MemoryStream();
+                    imgMateriaInput.InputStream.CopyTo(target);
+                    byte[] data = target.ToArray();
 
-                //me dio un archivo
-                MemoryStream target = new MemoryStream();
-                imgMateriaInput.InputStream.CopyTo(target);
-                byte[] data = target.ToArray();
+                    materia.MateriaImagen.Imagen = data;
 
-                materia.MateriaImagen.Imagen= data;
+                }
+
+
+                if (Session["ListaImagenes"] == null)
+                {
+
+                    materia.MateriaImagen.MateriasImagenes = new List<object>();
+                    materia.MateriaImagen.MateriasImagenes.Add(materia.MateriaImagen);//Id, Descripcion, Imagen
+                    Session["ListaImagenes"] = materia.MateriaImagen.MateriasImagenes; //Boxing
+
+                }
+                else
+                {
+                    materia.MateriaImagen.MateriasImagenes = Session["ListaImagenes"] as List<object>; //1//UNBOXING
+
+                    materia.MateriaImagen.MateriasImagenes.Add(materia.MateriaImagen); //2 //Lista
+
+                    Session["ListaImagenes"] = materia.MateriaImagen.MateriasImagenes; //Boxing
+
+                }
 
             }
 
-            
-            if(Session["ListaImagenes"]==null)
-            {
-
-                materia.MateriaImagen.MateriasImagenes = new List<object>();
-                materia.MateriaImagen.MateriasImagenes.Add(materia.MateriaImagen);//Id, Descripcion, Imagen
-                Session["ListaImagenes"] = materia.MateriaImagen.MateriasImagenes; //Boxing
-            
-            }
             else
             {
-                materia.MateriaImagen.MateriasImagenes = Session["ListaImagenes"] as List<object>; //1//UNBOXING
+                if (materia.IdMateria == 0)
+                {
+                    result = BL.Materia.AddSP(materia); //1.- Materia 
 
-                materia.MateriaImagen.MateriasImagenes.Add(materia.MateriaImagen); //2 //Lista
+                    int IdMateria = 2; //recuperar el id de la materia
+                                       //2.- Agregar las imágenes
 
-                Session["ListaImagenes"] = materia.MateriaImagen.MateriasImagenes; //Boxing
 
+                    foreach (ML.MateriaImagen materiaImagen in materia.MateriaImagen.MateriasImagenes)
+                    {
+                        //  BL.MateriaImagen.Add(materiaImagen);//Agregar normal
+                    }
+
+
+
+
+                }
+                else
+                {
+                    result = BL.Materia.Update(materia);
+
+                    foreach (ML.MateriaImagen materiaImagen in materia.MateriaImagen.MateriasImagenes)
+                    {
+                        if (materiaImagen.IdMateriaImagen == 0)
+                        {
+                            //BL.MateriaImagen.Add(materiaImagen);
+                        }
+                    }
+                }
+
+
+
+                if (result.Correct) //result.Correct 
+                {
+                    return RedirectToAction("GetAll");
+                }
             }
 
-
-
-
-
-            //if (materia.IdMateria == 0)
-            //{
-            //    result = BL.Materia.AddSP(materia);
-            //}
-            //else
-            //{
-            //    result = BL.Materia.Update(materia);
-            //}
-
-            //if (result.Correct) //result.Correct 
-            //{
-            //    return RedirectToAction("GetAll");
-            //}
+           
 
 
             return View(materia);
@@ -137,7 +163,7 @@ namespace PL_MVC.Controllers
             return RedirectToAction("GetAll");
         }
 
-        public ActionResult DeleteImagen(int IdMateriaImagen, string Descripcion)
+        public ActionResult DeleteImagen(int IdMateriaImagen, string Descripcion, int IdMateria)
         {
             ML.Materia materia = new ML.Materia();
             materia.MateriaImagen = new ML.MateriaImagen();
@@ -167,7 +193,7 @@ namespace PL_MVC.Controllers
             }
 
             
-            return RedirectToAction("GetAll");
+            return RedirectToAction("Formulario", new { IdMateria = IdMateria } ); //GET
         }
 
 

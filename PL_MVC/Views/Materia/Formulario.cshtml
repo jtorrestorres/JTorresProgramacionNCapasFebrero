@@ -62,13 +62,14 @@
 
 
                 @Html.HiddenFor(model => model.Imagen)
+                @*@Html.HiddenFor(model => model.Action)*@
 
 
 
 
                 <div class="row mt-3">
                     <div class="col-2">
-                        <input type="submit" value="Guardar" class="btn btn-success" />
+                        <input type="submit" name="Action" value="Guardar" class="btn btn-success" />
                     </div>
                     <div class="col-2">
                         @Html.ActionLink("Regresar", "GetAll", "Materia", new { @class = "btn btn-danger" })
@@ -90,7 +91,7 @@
                 <div class="row">
                     <input type="file" name="imgMateriaInput" onchange="PrevisualizarImagen(event)" />
 
-                    <input type="submit" value="Cargar" class="btn btn-info" />
+                    <input type="submit" value="Cargar" name="Action" class="btn btn-info" />
                 </div>
 
                 <div class="row">
@@ -128,7 +129,7 @@
 
                                             </td>
                                             <td>
-                                                <a href="@Url.Action("DeleteImagen", "Materia", new {IdMateriaImagen = @materiaImagen.IdMateriaImagen, Descripcion = materiaImagen.Descripcion})">
+                                                <a href="@Url.Action("DeleteImagen", "Materia", new {IdMateriaImagen = @materiaImagen.IdMateriaImagen, Descripcion = materiaImagen.Descripcion, IdMateria = Model.IdMateria})">
                                                     <i class="bi bi-trash-fill">prueba</i>
                                                 </a>
 

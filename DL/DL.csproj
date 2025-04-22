@@ -31,9 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,7 +52,83 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conexion.cs" />
+    <Compile Include="Grupo.cs">
+      <DependentUpon>JTorresProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GrupoGetByIdPlantel_Result.cs">
+      <DependentUpon>JTorresProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JTorresProgramacionNCapasFebrero.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JTorresProgramacionNCapasFebrero.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JTorresProgramacionNCapasFebrero.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JTorresProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JTorresProgramacionNCapasFebrero.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JTorresProgramacionNCapasFebrero.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Materia.cs">
+      <DependentUpon>JTorresProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MateriaGetAll_Result.cs">
+      <DependentUpon>JTorresProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MateriaGetById_Result.cs">
+      <DependentUpon>JTorresProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Plantel.cs">
+      <DependentUpon>JTorresProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlantelGetAll_Result.cs">
+      <DependentUpon>JTorresProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rol.cs">
+      <DependentUpon>JTorresProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Semestre.cs">
+      <DependentUpon>JTorresProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SemestreGetAll_Result.cs">
+      <DependentUpon>JTorresProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.cs">
+      <DependentUpon>JTorresProgramacionNCapasFebrero.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="JTorresProgramacionNCapasFebrero.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>JTorresProgramacionNCapasFebrero.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="JTorresProgramacionNCapasFebrero.edmx.diagram">
+      <DependentUpon>JTorresProgramacionNCapasFebrero.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="JTorresProgramacionNCapasFebrero.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JTorresProgramacionNCapasFebrero.Context.cs</LastGenOutput>
+      <DependentUpon>JTorresProgramacionNCapasFebrero.edmx</DependentUpon>
+    </Content>
+    <Content Include="JTorresProgramacionNCapasFebrero.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>JTorresProgramacionNCapasFebrero.edmx</DependentUpon>
+      <LastGenOutput>JTorresProgramacionNCapasFebrero.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

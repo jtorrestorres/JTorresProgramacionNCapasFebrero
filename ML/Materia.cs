@@ -19,7 +19,7 @@ namespace ML
         public string FechaRegistro { get; set; }
 
         public byte[] Imagen { get; set; }
-
+        public string Action { get; set; } //Add, Update
 
         public List<object> Materias { get; set; }
 

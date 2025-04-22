@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="628d3a79f90d4e259c3a15b5932641bb" Name="Diagram1">
+        <EntityTypeShape EntityType="JTorresProgramacionNCapasFebreroModel.Grupo" Width="1.5" PointX="8" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="JTorresProgramacionNCapasFebreroModel.Materia" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="JTorresProgramacionNCapasFebreroModel.Plantel" Width="1.5" PointX="5.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="JTorresProgramacionNCapasFebreroModel.Rol" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="JTorresProgramacionNCapasFebreroModel.Semestre" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="JTorresProgramacionNCapasFebreroModel.Usuario" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="JTorresProgramacionNCapasFebreroModel.FK__Grupo__IdPlantel__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="JTorresProgramacionNCapasFebreroModel.FK__Materia__IdSemes__2B3F6F97" ManuallyRouted="false" />
+        <AssociationConnector Association="JTorresProgramacionNCapasFebreroModel.FK__Usuario__IdRol__403A8C7D" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
