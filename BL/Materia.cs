@@ -44,8 +44,8 @@ namespace BL
                             materia.Costo = (Convert.ToDecimal(row[4].ToString()));
 
                             materia.Semestre = new ML.Semestre();
-                            materia.Semestre.IdSemestre= (Convert.ToByte(row[5].ToString()));
-                            materia.Semestre.Nombre = (row[6].ToString());                           
+                            materia.Semestre.IdSemestre = (Convert.ToByte(row[5].ToString()));
+                            materia.Semestre.Nombre = (row[6].ToString());
 
                             materia.Imagen = row[7].ToString() != "" ? (byte[])row[7] : null;//operador ternario
 
@@ -71,7 +71,7 @@ namespace BL
         }
 
         public static ML.Result GetById(int IdMateria)  // Stored procedure
-            {
+        {
             ML.Result result = new ML.Result();
 
             try
@@ -213,7 +213,7 @@ namespace BL
                 using (SqlConnection conn = new SqlConnection(DL.Conexion.Get()))
                 {
                     SqlCommand cmd = new SqlCommand("MateriaUpdate", conn);
-                    
+
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Nombre", materia.Nombre);
                     cmd.Parameters.AddWithValue("@Creditos", materia.Creditos);
@@ -221,7 +221,7 @@ namespace BL
                     cmd.Parameters.AddWithValue("@Costo", materia.Costo);
                     cmd.Parameters.AddWithValue("@IdSemestre", materia.Semestre.IdSemestre);
                     cmd.Parameters.AddWithValue("@Imagen", materia.Imagen);
-                    
+
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
 
@@ -255,7 +255,7 @@ namespace BL
                     SqlCommand cmd = new SqlCommand("MateriaDelete", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@IdMateria", materia.IdMateria);
-                    
+
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
 
@@ -278,7 +278,7 @@ namespace BL
             return result;
         }
 
-        public static ML.Result DeleteSP (int idMateria)
+        public static ML.Result DeleteSP(int idMateria)
         {
             ML.Result result = new ML.Result();
 
@@ -297,10 +297,11 @@ namespace BL
 
                     int filasAfectadas = command.ExecuteNonQuery();
 
-                    if(filasAfectadas > 0)
+                    if (filasAfectadas > 0)
                     {
                         result.Correct = true;
-                    } else
+                    }
+                    else
                     {
                         result.Correct = false;
                         result.ErrorMessage = "No se encontro el usuario que quieres eliminar";
@@ -308,7 +309,8 @@ namespace BL
                 }
 
 
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
                 result.Correct = false;
@@ -319,14 +321,104 @@ namespace BL
             return result;
         }
 
-        public static ML.Result GetAllEFLinq()  
+        public static ML.Result GetAllEFLinq()
         {
             ML.Result result = new ML.Result();
 
             try
             {
-                using(DL.JTorresProgramacionNCapasFebreroEntities context = new DL.JTorresProgramacionNCapasFebreroEntities())
+                using (DL.JTorresProgramacionNCapasFebreroEntities context = new DL.JTorresProgramacionNCapasFebreroEntities())
                 {
+                    //consulta
+
+                    //var listMaterias = (from materiaDB in context.Materias
+                    //                    select materiaDB).ToList(); //SELECT * FROM
+
+                    var listMaterias = (from materiaDB in context.Materias
+                                        join semestreDB in context.Semestres on materiaDB.IdSemestre equals semestreDB.IdSemestre
+                                        select new
+                                        {
+                                            IdMateria = materiaDB.IdMateria,
+                                            MateriaNombre = materiaDB.Nombre,
+                                            Descripcion = materiaDB.Descripcion,
+                                            Creditos = materiaDB.Creditos,
+                                            Costo = materiaDB.Costo,
+                                            IdSemestre = materiaDB.IdSemestre,
+                                            SemestreNombre = semestreDB.Nombre
+                                        }).ToList();
+
+                    if (listMaterias != null && listMaterias.Count > 0)
+                    {
+                        result.Objects = new List<object>();
+
+                        foreach (var obj in listMaterias)
+                        {
+                            ML.Materia materia = new ML.Materia();
+                            materia.IdMateria = obj.IdMateria;
+                            materia.Nombre = obj.MateriaNombre;
+
+                            result.Objects.Add(materia);
+                        }
+
+                    }
+
+
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+
+        public static ML.Result GetByIdEFLinq(int IdMateria)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL.JTorresProgramacionNCapasFebreroEntities context = new DL.JTorresProgramacionNCapasFebreroEntities())
+                {
+                    //consulta
+
+                    //var listMaterias = (from materiaDB in context.Materias
+                    //                    select materiaDB).ToList(); //SELECT * FROM
+
+                    var materiabyId = (from materiaDB in context.Materias
+                                       join semestreDB in context.Semestres on materiaDB.IdSemestre equals semestreDB.IdSemestre
+                                       where materiaDB.IdMateria == IdMateria 
+                                       select new
+                                       {
+                                           IdMateria = materiaDB.IdMateria,
+                                           MateriaNombre = materiaDB.Nombre,
+                                           Descripcion = materiaDB.Descripcion,
+                                           Creditos = materiaDB.Creditos,
+                                           Costo = materiaDB.Costo,
+                                           IdSemestre = materiaDB.IdSemestre,
+                                           SemestreNombre = semestreDB.Nombre
+                                       }).SingleOrDefault();
+
+                    if (materiabyId != null)
+                    {
+                        result.Objects = new List<object>();
+
+
+                        ML.Materia materia = new ML.Materia();
+                        materia.IdMateria = materiabyId.IdMateria;
+                        materia.Nombre = materiabyId.MateriaNombre;
+
+
+
+                    }
+
+
 
                 }
 
