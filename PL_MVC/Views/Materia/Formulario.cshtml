@@ -13,6 +13,9 @@
         </div>
     </div>
 
+    <button class="btn btn-info" id="btnPrueba" > Dar Click </button>
+
+
     <div class="row">
         <div class="col-12">
             <h5>Ingrese los datos de la materia:</h5>
@@ -30,7 +33,8 @@
                     </div>
                     <div class="col-6">
                         @Html.LabelFor(model => model.Nombre, new { @class = "form-label" })
-                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id="txtNombre", @onkeypress="return ValidarSoloLetras(event)" })
+                        <label id="lblErrorNombre"></label>
                     </div>
                 </div>
 
@@ -150,6 +154,8 @@
 
     }
 
+
+
 </div>
 
 
@@ -157,6 +163,7 @@
 
 @*@Scripts.Render("~/bundles/jquery")*@
 <script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/Materia/Validaciones/ValidacionesRegex.js"></script>
 
 <script type="text/javascript">
 

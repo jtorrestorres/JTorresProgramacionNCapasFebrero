@@ -414,8 +414,7 @@ namespace BL
                         materia.IdMateria = materiabyId.IdMateria;
                         materia.Nombre = materiabyId.MateriaNombre;
 
-
-
+                        result.Object = materia;
                     }
 
 
@@ -423,6 +422,50 @@ namespace BL
                 }
 
 
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+
+        public static ML.Result AddEFLinq(ML.Materia materia)
+        {
+            ML.Result result = new ML.Result();
+
+
+
+
+
+            try
+            {
+                using (DL.JTorresProgramacionNCapasFebreroEntities context = new DL.JTorresProgramacionNCapasFebreroEntities())
+                {
+
+                    DL.Materia materiaDB = new DL.Materia();
+
+                    materiaDB.Nombre = materia.Nombre;
+                    materiaDB.Descripcion = materia.Descripcion;                   
+
+                    context.Materias.Add(materiaDB);
+
+                    int RowsAffected = context.SaveChanges();
+
+                    if(RowsAffected > 0 )
+                    {
+                        result.Correct = true;
+                        
+                    }
+                    else
+                    {
+                        result.Correct=false;
+                        result.ErrorMessage = "No se pudo agregar la materia";
+                    }
+                }
             }
             catch (Exception ex)
             {
