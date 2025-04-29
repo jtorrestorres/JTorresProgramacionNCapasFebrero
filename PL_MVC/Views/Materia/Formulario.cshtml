@@ -54,9 +54,12 @@
                     <div class="col-6">
                         @Html.LabelFor(model => model.Costo, new { @class = "form-label" })
                         @Html.TextBoxFor(model => model.Costo, new { @class = "form-control" })
+                        <span id=""></span>
                     </div>
                     <div class="col-6">
                         @Html.LabelFor(model => model.Semestre.IdSemestre, new { @class = "form-label" })
+                        @Html.TextBoxFor(model => model.Descripcion, new {@id="txtEmail", @onblur="ValidarCURP(this)" })
+                        <span></span>
                         @*@Html.TextBoxFor(model => model.Semestre.IdSemestre, new { @class = "form-control" })*@
 
                         @*@Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opcion", new { @class = "form-control" })*@
