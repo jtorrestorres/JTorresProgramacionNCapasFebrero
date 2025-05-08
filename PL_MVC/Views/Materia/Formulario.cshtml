@@ -34,6 +34,7 @@
                     <div class="col-6">
                         @Html.LabelFor(model => model.Nombre, new { @class = "form-label" })
                         @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id="txtNombre", @onkeypress="return ValidarSoloLetras(event)" })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new {@class="text-danger"})
                         <label id="lblErrorNombre"></label>
                     </div>
                 </div>

@@ -81,11 +81,6 @@ namespace DL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MateriaDelete", idMateriaParameter);
         }
     
-        public virtual ObjectResult<MateriaGetAll_Result> MateriaGetAll()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MateriaGetAll_Result>("MateriaGetAll");
-        }
-    
         public virtual ObjectResult<MateriaGetById_Result> MateriaGetById(Nullable<byte> idMateria)
         {
             var idMateriaParameter = idMateria.HasValue ?
@@ -145,6 +140,24 @@ namespace DL
         public virtual ObjectResult<SemestreGetAll_Result> SemestreGetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SemestreGetAll_Result>("SemestreGetAll");
+        }
+    
+        public virtual ObjectResult<MateriaGetAll_Result> MateriaGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MateriaGetAll_Result>("MateriaGetAll");
+        }
+    
+        public virtual int MateriaChangeStatus(Nullable<int> idMateria, Nullable<bool> status)
+        {
+            var idMateriaParameter = idMateria.HasValue ?
+                new ObjectParameter("IdMateria", idMateria) :
+                new ObjectParameter("IdMateria", typeof(int));
+    
+            var statusParameter = status.HasValue ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MateriaChangeStatus", idMateriaParameter, statusParameter);
         }
     }
 }

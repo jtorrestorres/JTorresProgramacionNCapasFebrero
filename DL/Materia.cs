@@ -22,6 +22,7 @@ namespace DL
         public Nullable<byte> IdSemestre { get; set; }
         public Nullable<System.DateTime> FechaRegistro { get; set; }
         public byte[] Imagen { get; set; }
+        public Nullable<bool> Status { get; set; }
     
         public virtual Semestre Semestre { get; set; }
     }

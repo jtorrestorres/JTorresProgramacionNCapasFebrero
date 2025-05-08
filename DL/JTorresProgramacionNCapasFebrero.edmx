@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="JTorresProgramacionNCapasFebreroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="JTorresProgramacionNCapasFebreroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Grupo">
           <Key>
             <PropertyRef Name="IdGrupo" />
@@ -25,6 +25,7 @@
           <Property Name="IdSemestre" Type="tinyint" />
           <Property Name="FechaRegistro" Type="datetime" />
           <Property Name="Imagen" Type="varbinary(max)" />
+          <Property Name="Status" Type="bit" />
         </EntityType>
         <EntityType Name="Plantel">
           <Key>
@@ -106,6 +107,10 @@
           <Parameter Name="Imagen" Type="varbinary(max)" Mode="In" />
           <Parameter Name="IdMateria" Type="tinyint" Mode="InOut" />
         </Function>
+        <Function Name="MateriaChangeStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdMateria" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="bit" Mode="In" />
+        </Function>
         <Function Name="MateriaDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdMateria" Type="tinyint" Mode="In" />
         </Function>
@@ -148,8 +153,7 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="JTorresProgramacionNCapasFebreroModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -175,6 +179,7 @@
           <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
           <Property Name="Imagen" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Semestre" Relationship="Self.FK__Materia__IdSemes__2B3F6F97" FromRole="Materia" ToRole="Semestre" />
+          <Property Name="Status" Type="Boolean" />
         </EntityType>
         <EntityType Name="Plantel">
           <Key>
@@ -268,7 +273,7 @@
             <End Role="Usuario" EntitySet="Usuarios" />
           </AssociationSet>
           <FunctionImport Name="GrupoGetByIdPlantel" ReturnType="Collection(JTorresProgramacionNCapasFebreroModel.GrupoGetByIdPlantel_Result)">
-            <Parameter Name="IdPlantel" Mode="In" Type="Byte" />
+          <Parameter Name="IdPlantel" Mode="In" Type="Byte" />
           </FunctionImport>
           <FunctionImport Name="MateriaAdd">
             <Parameter Name="Nombre" Mode="In" Type="String" />
@@ -280,11 +285,10 @@
             <Parameter Name="IdMateria" Mode="InOut" Type="Byte" />
           </FunctionImport>
           <FunctionImport Name="MateriaDelete">
-            <Parameter Name="IdMateria" Mode="In" Type="Byte" />
+          <Parameter Name="IdMateria" Mode="In" Type="Byte" />
           </FunctionImport>
-          <FunctionImport Name="MateriaGetAll" ReturnType="Collection(JTorresProgramacionNCapasFebreroModel.MateriaGetAll_Result)" />
           <FunctionImport Name="MateriaGetById" ReturnType="Collection(JTorresProgramacionNCapasFebreroModel.MateriaGetById_Result)">
-            <Parameter Name="IdMateria" Mode="In" Type="Byte" />
+          <Parameter Name="IdMateria" Mode="In" Type="Byte" />
           </FunctionImport>
           <FunctionImport Name="MateriaUpdate">
             <Parameter Name="IdMateria" Mode="In" Type="Byte" />
@@ -301,21 +305,16 @@
           </FunctionImport>
           <FunctionImport Name="PlantelGetAll" ReturnType="Collection(JTorresProgramacionNCapasFebreroModel.PlantelGetAll_Result)" />
           <FunctionImport Name="SemestreGetAll" ReturnType="Collection(JTorresProgramacionNCapasFebreroModel.SemestreGetAll_Result)" />
+          <FunctionImport Name="MateriaGetAll" ReturnType="Collection(JTorresProgramacionNCapasFebreroModel.MateriaGetAll_Result)" />
+          <FunctionImport Name="MateriaChangeStatus">
+            <Parameter Name="IdMateria" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="Boolean" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GrupoGetByIdPlantel_Result">
           <Property Type="Byte" Name="IdGrupo" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
           <Property Type="Byte" Name="IdPlantel" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="MateriaGetAll_Result">
-          <Property Type="Byte" Name="IdMateria" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
-          <Property Type="Byte" Name="Creditos" Nullable="true" />
-          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="500" />
-          <Property Type="Decimal" Name="Costo" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="Byte" Name="IdSemestre" Nullable="true" />
-          <Property Type="String" Name="Nombre1" Nullable="true" MaxLength="50" />
-          <Property Type="Binary" Name="Imagen" Nullable="true" />
         </ComplexType>
         <ComplexType Name="MateriaGetById_Result">
           <Property Type="Byte" Name="IdMateria" Nullable="false" />
@@ -333,6 +332,17 @@
         <ComplexType Name="SemestreGetAll_Result">
           <Property Type="Byte" Name="IdSemestre" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="MateriaGetAll_Result">
+          <Property Type="Byte" Name="IdMateria" Nullable="false" />
+          <Property Type="String" Name="NombreMateria" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="Creditos" Nullable="true" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="Costo" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Byte" Name="IdSemestre" Nullable="true" />
+          <Property Type="String" Name="NombreSemestre" Nullable="true" MaxLength="50" />
+          <Property Type="Binary" Name="Imagen" Nullable="true" />
+          <Property Type="Boolean" Name="Status" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -352,6 +362,7 @@
           <EntitySetMapping Name="Materias">
             <EntityTypeMapping TypeName="JTorresProgramacionNCapasFebreroModel.Materia">
               <MappingFragment StoreEntitySet="Materia">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Creditos" ColumnName="Creditos" />
@@ -410,20 +421,6 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="MateriaAdd" FunctionName="JTorresProgramacionNCapasFebreroModel.Store.MateriaAdd" />
           <FunctionImportMapping FunctionImportName="MateriaDelete" FunctionName="JTorresProgramacionNCapasFebreroModel.Store.MateriaDelete" />
-          <FunctionImportMapping FunctionImportName="MateriaGetAll" FunctionName="JTorresProgramacionNCapasFebreroModel.Store.MateriaGetAll">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="JTorresProgramacionNCapasFebreroModel.MateriaGetAll_Result">
-                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Costo" ColumnName="Costo" />
-                <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
-                <ScalarProperty Name="Nombre1" ColumnName="Nombre1" />
-                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="MateriaGetById" FunctionName="JTorresProgramacionNCapasFebreroModel.Store.MateriaGetById">
             <ResultMapping>
               <ComplexTypeMapping TypeName="JTorresProgramacionNCapasFebreroModel.MateriaGetById_Result">
@@ -455,6 +452,22 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MateriaGetAll" FunctionName="JTorresProgramacionNCapasFebreroModel.Store.MateriaGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JTorresProgramacionNCapasFebreroModel.MateriaGetAll_Result">
+                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
+                <ScalarProperty Name="NombreMateria" ColumnName="NombreMateria" />
+                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Costo" ColumnName="Costo" />
+                <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
+                <ScalarProperty Name="NombreSemestre" ColumnName="NombreSemestre" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MateriaChangeStatus" FunctionName="JTorresProgramacionNCapasFebreroModel.Store.MateriaChangeStatus" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

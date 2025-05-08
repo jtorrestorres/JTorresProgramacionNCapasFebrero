@@ -14,12 +14,13 @@ namespace DL
     public partial class MateriaGetAll_Result
     {
         public byte IdMateria { get; set; }
-        public string Nombre { get; set; }
+        public string NombreMateria { get; set; }
         public Nullable<byte> Creditos { get; set; }
         public string Descripcion { get; set; }
         public Nullable<decimal> Costo { get; set; }
         public Nullable<byte> IdSemestre { get; set; }
-        public string Nombre1 { get; set; }
+        public string NombreSemestre { get; set; }
         public byte[] Imagen { get; set; }
+        public Nullable<bool> Status { get; set; }
     }
 }

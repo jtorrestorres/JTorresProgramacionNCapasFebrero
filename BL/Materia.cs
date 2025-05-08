@@ -12,6 +12,96 @@ namespace BL
 {
     public class Materia
     {
+
+        public static ML.Result ChangeStatus(int IdMateria, bool Status)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using(DL.JTorresProgramacionNCapasFebreroEntities context = new DL.JTorresProgramacionNCapasFebreroEntities())
+                {
+                    int filasAfectadas = context.MateriaChangeStatus(IdMateria, Status);
+
+                    if(filasAfectadas > 0 )
+                    {
+                        result.Correct = true;
+                    } else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "NO se pudo actualizar el status";
+                    }
+                }
+
+            } catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+
+        }
+        public static ML.Result GetAllEF()  // Stored procedure
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                //1 Importar librerías
+                //2 Gestiona Recursos  //Garbage Collector
+                using (DL.JTorresProgramacionNCapasFebreroEntities context = new DL.JTorresProgramacionNCapasFebreroEntities())
+                {
+                    var query = context.MateriaGetAll().ToList();
+
+                    if (query.Count > 0)
+                    {
+                        result.Objects = new List<object>();
+
+                        foreach (var item in query)
+                        {
+                            ML.Materia materia = new ML.Materia();
+                            materia.IdMateria = item.IdMateria;
+                            materia.Nombre = item.NombreMateria;
+                            if (item.Creditos == null)
+                            {
+
+                                materia.Creditos = item.Creditos.Value;
+                            }
+                            else
+                            {
+                                materia.Creditos = 0;
+                            }
+                            materia.Descripcion = item.Descripcion;
+                            materia.Costo = item.Costo ?? 0;
+
+                            materia.Semestre = new ML.Semestre();
+                            materia.Semestre.IdSemestre = item.IdSemestre ?? 0;
+                            materia.Semestre.Nombre = item.NombreSemestre;
+                            materia.Imagen = item.Imagen;
+                            materia.Status = item.Status ?? false;
+
+
+                            result.Objects.Add(materia);
+                        }
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No se encontraron registros";
+                    }
+                    // conn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return result;
+        }
         // Métodos con el query dentro de 
         public static ML.Result GetAll()  // Stored procedure
         {
@@ -393,7 +483,7 @@ namespace BL
 
                     var materiabyId = (from materiaDB in context.Materias
                                        join semestreDB in context.Semestres on materiaDB.IdSemestre equals semestreDB.IdSemestre
-                                       where materiaDB.IdMateria == IdMateria 
+                                       where materiaDB.IdMateria == IdMateria
                                        select new
                                        {
                                            IdMateria = materiaDB.IdMateria,
@@ -449,20 +539,20 @@ namespace BL
                     DL.Materia materiaDB = new DL.Materia();
 
                     materiaDB.Nombre = materia.Nombre;
-                    materiaDB.Descripcion = materia.Descripcion;                   
+                    materiaDB.Descripcion = materia.Descripcion;
 
                     context.Materias.Add(materiaDB);
 
                     int RowsAffected = context.SaveChanges();
 
-                    if(RowsAffected > 0 )
+                    if (RowsAffected > 0)
                     {
                         result.Correct = true;
-                        
+
                     }
                     else
                     {
-                        result.Correct=false;
+                        result.Correct = false;
                         result.ErrorMessage = "No se pudo agregar la materia";
                     }
                 }
